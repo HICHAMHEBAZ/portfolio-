@@ -1,0 +1,16 @@
+---
+import { SITE, copy, type Locale } from '../config/site';
+const { locale } = Astro.props as { locale: Locale };
+const t = copy[locale];
+---
+<footer>
+  <div class="container footer-grid">
+    <div><p class="footer-kicker">Notebook / Hicham Hebaz</p><h2>{locale === 'fr' ? 'Des idées qui donnent une vraie raison de s’intéresser.' : 'Ideas that give people a genuine reason to care.'}</h2><p>{SITE.owner.description}</p></div>
+    <div><strong>{locale === 'fr' ? 'Explorer' : 'Explore'}</strong><a href={`/${locale}/services/`}>{t.nav.services}</a><a href={`/${locale}/insights/`}>{t.nav.insights}</a><a href={`/${locale}/research/`}>{t.nav.research}</a></div>
+    <div><strong>Contact</strong>{SITE.email && <a href={`mailto:${SITE.email}`}>{SITE.email}</a>}<a href={`/${locale}/contact/`}>{locale === 'fr' ? 'Prendre contact' : 'Get in touch'}</a><a href={`/${locale}/privacy/`}>{locale === 'fr' ? 'Confidentialité' : 'Privacy'}</a><a href="/rss.xml">RSS</a></div>
+  </div>
+  <div class="container copyright">© {new Date().getFullYear()} {SITE.name}. {locale === 'fr' ? 'Les résultats ne sont jamais garantis.' : 'Results are never guaranteed.'}</div>
+</footer>
+<style>
+footer{margin-top:2rem;padding:4.5rem 0 1.25rem;background:var(--ink);color:var(--paper)}.footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr;gap:2rem}.footer-kicker{margin:0 0 .65rem;color:var(--accent-yellow);font-family:var(--font-tech);font-size:.7rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase}footer h2{max-width:32rem;margin:.2rem 0 1rem;font-size:clamp(1.7rem,3vw,2.65rem);letter-spacing:-.045em;line-height:1.05}footer p{max-width:34rem;color:color-mix(in srgb,var(--paper) 68%,var(--ink))}footer a,footer strong{display:block;margin-bottom:.6rem}footer strong{font-family:var(--font-tech);font-size:.75rem;letter-spacing:.08em;text-transform:uppercase}footer a{color:color-mix(in srgb,var(--paper) 86%,var(--ink))}.copyright{margin-top:3rem;padding-top:1.2rem;border-top:1px solid rgba(248,247,240,.2);color:color-mix(in srgb,var(--paper) 58%,var(--ink));font-size:.82rem}@media(max-width:650px){.footer-grid{grid-template-columns:1fr;gap:1.25rem}}
+</style>

@@ -1,0 +1,5 @@
+---
+import BaseLayout from '../../components/BaseLayout.astro'; import { SITE,type Locale } from '../../config/site';
+export function getStaticPaths(){return SITE.locale.supported.map((locale)=>({params:{locale}}));} const locale=Astro.params.locale as Locale; const isFr=locale==='fr';
+---
+<BaseLayout title={`${isFr?'Confidentialité':'Privacy'} | ${SITE.name}`} description={isFr?'Informations de confidentialité du site.':'Site privacy information.'} locale={locale} canonicalPath={`/${locale}/privacy/`} alternatePaths={{fr:'/fr/privacy/',en:'/en/privacy/'}} noindex><section class="section"><div class="container prose"><h1>{isFr?'Confidentialité':'Privacy'}</h1><p>{isFr?'Cette page doit être complétée avant le lancement avec les outils d’analyse, formulaires et moyens de contact réellement utilisés.':'Complete this page before launch with the analytics, forms, and contact tools actually used.'}</p></div></section></BaseLayout>

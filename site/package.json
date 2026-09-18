@@ -1,0 +1,33 @@
+{
+	"name": "formulatravel",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "astro dev",
+    "start": "astro dev",
+    "check": "astro check",
+    "validate-content": "node scripts/validate-content.mjs",
+    "build": "astro build",
+    "preview": "astro preview",
+    "ci": "npm run validate-content && npm run check && npm run build && node scripts/verify-output.mjs",
+    "test": "npm run ci",
+    "deploy": "node scripts/validate-production-config.mjs && npm run ci && wrangler deploy"
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.10",
+    "@cloudflare/vitest-plugin": "^1.0.0",
+    "@types/node": "^26.4.1",
+    "gray-matter": "^4.0.3",
+    "typescript": "^5.5.2",
+    "vitest": "~4.1.0",
+    "wrangler": "^4.129.0"
+  },
+  "dependencies": {
+    "@astrojs/cloudflare": "^14.3.0",
+    "@astrojs/mdx": "^8.0.0",
+    "@astrojs/rss": "^4.0.19",
+    "@astrojs/sitemap": "^3.7.4",
+    "astro": "^7.3.1",
+    "sharp": "^0.35.4"
+  }
+}

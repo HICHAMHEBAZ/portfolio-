@@ -1,0 +1,5 @@
+---
+import BaseLayout from '../../../components/BaseLayout.astro'; import ArticleCard from '../../../components/ArticleCard.astro'; import { SITE,type Locale } from '../../../config/site'; import { localizedEntries } from '../../../lib/content';
+export function getStaticPaths(){return SITE.locale.supported.map((locale)=>({params:{locale}}));} const locale=Astro.params.locale as Locale; const entries=await localizedEntries('caseStudies',locale);
+---
+<BaseLayout title={`${locale==='fr'?'Études de cas':'Case studies'} | ${SITE.name}`} description={locale==='fr'?'Méthodes, résultats et limites des projets de visibilité.':'Methods, results, and limitations of visibility projects.'} locale={locale} canonicalPath={`/${locale}/work/`} alternatePaths={{fr:'/fr/work/',en:'/en/work/'}}><section class="section"><div class="container"><p class="eyebrow">{locale==='fr'?'Preuves':'Proof'}</p><h1>{locale==='fr'?'Le travail, avec son contexte et ses limites.':'The work, including context and limitations.'}</h1><div class="grid grid--3">{entries.map((entry)=><ArticleCard entry={entry} collection="work" locale={locale}/>)}</div></div></section></BaseLayout>

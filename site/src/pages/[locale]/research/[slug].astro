@@ -1,0 +1,5 @@
+---
+import { getCollection, render } from 'astro:content'; import ContentLayout from '../../../layouts/ContentLayout.astro'; import { type Locale } from '../../../config/site'; import { isPublished,translationFor } from '../../../lib/content';
+export async function getStaticPaths(){const entries=await getCollection('research');return entries.filter(isPublished).map((entry)=>({params:{locale:entry.data.locale,slug:entry.data.slug},props:{entry}}));} const {entry}=Astro.props as any; const locale=Astro.params.locale as Locale; const translated=await translationFor('research',entry,locale==='fr'?'en':'fr'); const {Content}=await render(entry);
+---
+<ContentLayout entry={entry} locale={locale} section="research" collection="research" Content={Content} alternatePaths={{[locale]:`/${locale}/research/${entry.data.slug}/`,...(translated?{[translated.data.locale]:`/${translated.data.locale}/research/${translated.data.slug}/`}:{})}}/>

@@ -1,0 +1,20 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../../../components/BaseLayout.astro';
+import ArticleCard from '../../../../components/ArticleCard.astro';
+import { SITE, type Locale } from '../../../../config/site';
+import { isPublished } from '../../../../lib/content';
+import { topicSlug } from '../../../../lib/topics';
+
+export async function getStaticPaths() {
+  const entries = await getCollection('articles');
+  const topics = new Map<string, { locale: string; label: string }>();
+  for (const entry of entries.filter(isPublished)) for (const topic of entry.data.topics) topics.set(`${entry.data.locale}:${topicSlug(topic)}`, { locale: entry.data.locale, label: topic });
+  return [...topics.entries()].map(([key, value]) => ({ params: { locale: value.locale, topic: key.split(':')[1] }, props: { label: value.label } }));
+}
+
+const locale = Astro.params.locale as Locale;
+const { label } = Astro.props as { label: string };
+const entries = (await getCollection('articles')).filter((entry) => isPublished(entry) && entry.data.locale === locale && entry.data.topics.some((topic) => topicSlug(topic) === Astro.params.topic));
+---
+<BaseLayout title={`${label} | ${SITE.name}`} description={`${label} — ${locale === 'fr' ? 'analyses de visibilité au Maroc' : 'search visibility insights in Morocco'}.`} locale={locale} canonicalPath={`/${locale}/insights/topic/${Astro.params.topic}/`}><section class="section"><div class="container"><p class="eyebrow">{locale === 'fr' ? 'Sujet' : 'Topic'}</p><h1>{label}</h1><div class="grid grid--3">{entries.map((entry) => <ArticleCard entry={entry} collection="insights" locale={locale} />)}</div></div></section></BaseLayout>

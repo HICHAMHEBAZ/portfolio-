@@ -1,0 +1,8 @@
+---
+import { copy, type Locale } from '../config/site';
+import { formatDate } from '../lib/content';
+const { entry,collection,locale } = Astro.props as { entry:any; collection:'insights'|'research'|'work'; locale:Locale };
+const t=copy[locale]; const section=collection==='insights'?'insights':collection==='research'?'research':'work';
+---
+<article class="card article-card"><p class="eyebrow">{collection==='insights'?(locale==='fr'?'Analyse':'Insight'):collection==='research'?(locale==='fr'?'Recherche':'Research'):(locale==='fr'?'Étude de cas':'Case study')}</p><p class="article-index" aria-hidden="true">0{Math.max(1, entry.data.slug.length % 9)}</p><h2><a href={`/${locale}/${section}/${entry.data.slug}/`}>{entry.data.title}</a></h2><p>{entry.data.description}</p><p class="meta">{formatDate(entry.data.publishedAt,locale)} · {entry.data.author}</p><a class="text-link" href={`/${locale}/${section}/${entry.data.slug}/`}>{t.readMore} <span aria-hidden="true">→</span></a></article>
+<style>.article-card{position:relative;display:flex;min-height:290px;flex-direction:column}.article-card h2{font-size:1.28rem}.article-card>p:not(.eyebrow):not(.meta):not(.article-index){color:var(--muted);font-size:.92rem}.article-card .meta{margin-top:auto;padding-top:1rem}.article-index{position:absolute;right:1.2rem;top:1.15rem;margin:0;color:#d7d5fa;font-size:2.3rem;font-weight:800;letter-spacing:-.09em}.article-card .eyebrow{max-width:70%}</style>

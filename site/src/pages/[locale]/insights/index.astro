@@ -1,0 +1,5 @@
+---
+import BaseLayout from '../../../components/BaseLayout.astro'; import ArticleCard from '../../../components/ArticleCard.astro'; import { SITE,type Locale } from '../../../config/site'; import { localizedEntries } from '../../../lib/content';
+export function getStaticPaths(){return SITE.locale.supported.map((locale)=>({params:{locale}}));} const locale=Astro.params.locale as Locale; const entries=await localizedEntries('articles',locale);
+---
+<BaseLayout title={`${locale==='fr'?'Analyses':'Insights'} | ${SITE.name}`} description={locale==='fr'?'Analyses utiles sur le SEO, Google Maps et la recherche IA au Maroc.':'Useful analysis of SEO, Google Maps, and AI search in Morocco.'} locale={locale} canonicalPath={`/${locale}/insights/`} alternatePaths={{fr:'/fr/insights/',en:'/en/insights/'}}><section class="section"><div class="container"><p class="eyebrow">Publication</p><h1>{locale==='fr'?'Analyses pour une visibilité durable.':'Insights for durable visibility.'}</h1><div class="grid grid--3">{entries.map((entry)=><ArticleCard entry={entry} collection="insights" locale={locale}/>)}</div></div></section></BaseLayout>

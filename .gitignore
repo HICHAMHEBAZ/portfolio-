@@ -1,0 +1,11 @@
+.agents/
+.claude-flow/
+.swarm/
+.stitch-output/
+site/node_modules/
+site/dist/
+site/.astro/
+site/.wrangler/
+site/.env
+site/.env.*
+!site/.env.example

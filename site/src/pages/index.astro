@@ -1,0 +1,5 @@
+---
+import BaseLayout from '../components/BaseLayout.astro';
+import { SITE } from '../config/site';
+---
+<BaseLayout title={SITE.name} description="A French-first portfolio and publication about Moroccan search visibility." locale="fr" canonicalPath="/" alternatePaths={{fr:'/fr/',en:'/en/'}}><section class="section"><div class="container prose"><p class="eyebrow">Formulatravel</p><h1>Choisissez votre langue</h1><p><a class="button" href="/fr/">Français</a> <a class="button button--quiet" href="/en/">English</a></p></div></section></BaseLayout>

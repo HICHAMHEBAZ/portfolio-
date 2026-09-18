@@ -1,0 +1,23 @@
+---
+import { SITE, type Locale } from '../config/site';
+import Header from './Header.astro';
+import Footer from './Footer.astro';
+import '../styles/global.css';
+type Props = { title: string; description: string; locale: Locale; canonicalPath: string; alternatePaths?: Partial<Record<Locale, string>>; jsonLd?: Record<string, unknown> | Array<Record<string, unknown>>; noindex?: boolean };
+const { title, description, locale, canonicalPath, alternatePaths = {}, jsonLd, noindex = false } = Astro.props as Props;
+const canonical = new URL(canonicalPath, SITE.url).toString();
+const structuredData = jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [jsonLd]) : [];
+---
+<!doctype html>
+<html lang={locale}>
+  <head>
+    <meta charset="utf-8" /><meta name="viewport" content="width=device-width" /><meta name="description" content={description} /><meta name="robots" content={noindex ? 'noindex,nofollow' : 'index,follow'} />
+    <link rel="preconnect" href="https://fonts.googleapis.com" /><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous" /><link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
+    <link rel="canonical" href={canonical} />
+    {Object.entries(alternatePaths).map(([alternateLocale, path]) => path && <link rel="alternate" hreflang={alternateLocale} href={new URL(path, SITE.url).toString()} />)}
+    <link rel="alternate" hreflang="x-default" href={new URL('/fr/', SITE.url).toString()} />
+    <meta property="og:type" content="website" /><meta property="og:site_name" content={SITE.name} /><meta property="og:title" content={title} /><meta property="og:description" content={description} /><meta property="og:url" content={canonical} /><meta name="twitter:card" content="summary_large_image" /><title>{title}</title>
+    {structuredData.map((item) => <script type="application/ld+json" set:html={JSON.stringify(item)} />)}
+  </head>
+  <body><a class="skip-link" href="#main-content">{locale === 'fr' ? 'Aller au contenu' : 'Skip to content'}</a><div class="paper-shell"><Header locale={locale} alternatePaths={alternatePaths} /><main id="main-content"><slot /></main><Footer locale={locale} /></div></body>
+</html>
